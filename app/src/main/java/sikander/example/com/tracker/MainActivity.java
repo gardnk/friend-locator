@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -56,12 +57,19 @@ public class MainActivity extends FragmentActivity implements
 
     TextView mainLabel;
     ImageButton myLoc,send,get;
-    private static final String DEBUG_TAG = "HttpExample";
+
+    GoogleMap gm;
+
+    public static final int MAP_TYPE_HYBRID = 4;
+    public static final int MAP_TYPE_TERRAIN = 3;
+    public static final int MAP_TYPE_SATELLITE = 2;
+    public static final int MAP_TYPE_NORMAL = 1;
+    public static final int MAP_TYPE_NONE = 0;
 
     private Location mLastLocation;
     public LocationManager mLocationManager;
-    private double latitude = 0;
-    private double longitude = 0;
+    private double latitude = 62.083333;
+    private double longitude = 9.133333;
 
     private final IntentFilter intentFilter = new IntentFilter();
 
@@ -72,10 +80,8 @@ public class MainActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainLabel = (TextView) findViewById(R.id.mainLabel);
-        myLoc= (ImageButton) findViewById(R.id.myLoc);
-        send= (ImageButton) findViewById(R.id.send);
-        get= (ImageButton) findViewById(R.id.get);
+        //myLoc= (ImageButton) findViewById(R.id.myLoc);
+
 
 
         int LOCATION_REFRESH_TIME = 1000;
@@ -97,7 +103,6 @@ public class MainActivity extends FragmentActivity implements
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        send();
     }
 
     public void get(){
@@ -105,80 +110,12 @@ public class MainActivity extends FragmentActivity implements
     }
 
     public void send(){
-        send.setOnClickListener(new View.OnClickListener(){
+        send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Gets the URL from the UI's text field.
-                String stringUrl = "http://google.com/";
-                ConnectivityManager connMgr = (ConnectivityManager)
-                        getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-                if (networkInfo != null && networkInfo.isConnected()) {
-                    new DownloadWebpageTask().execute(stringUrl);
-                } else {
-                    mainLabel.setText("No network connection available.");
-                }
 
             }
         });
-    }
-
-    // Uses AsyncTask to create a task away from the main UI thread. This task takes a
-    // URL string and uses it to create an HttpUrlConnection. Once the connection
-    // has been established, the AsyncTask downloads the contents of the webpage as
-    // an InputStream. Finally, the InputStream is converted into a string, which is
-    // displayed in the UI by the AsyncTask's onPostExecute method.
-    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
-
-            // params comes from the execute() call: params[0] is the url.
-            try {
-                return downloadUrl(urls[0]);
-            } catch (IOException e) {
-                return "Unable to retrieve web page. URL may be invalid.";
-            }
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-            mainLabel.setText(result);
-        }
-    }
-
-    // Given a URL, establishes an HttpUrlConnection and retrieves
-    // the web page content as a InputStream, which it returns as
-    // a string.
-    private String downloadUrl(String myurl) throws IOException {
-        InputStream is = null;
-        // Only display the first 10 characters of the retrieved
-        // web page content.
-        int len = 20;
-
-        try {
-            URL url = new URL(myurl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000 /* milliseconds */);
-            conn.setConnectTimeout(15000 /* milliseconds */);
-            conn.setRequestMethod("GET");
-            conn.setDoInput(true);
-            // Starts the query
-            conn.connect();
-            int response = conn.getResponseCode();
-            Log.d(DEBUG_TAG, "The response is: " + response);
-            is = conn.getInputStream();
-
-            // Convert the InputStream into a string
-            String contentAsString = readIt(is, len);
-            return contentAsString;
-
-            // Makes sure that the InputStream is closed after the app is
-            // finished using it.
-        } finally {
-            if (is != null) {
-                is.close();
-            }
-        }
     }
 
     // Reads an InputStream and converts it to a String.
@@ -199,9 +136,14 @@ public class MainActivity extends FragmentActivity implements
             mLastLocation = location;
             longitude = location.getLongitude();
             latitude = location.getLatitude();
-            mainLabel.setText("Latitude:" + String.valueOf(longitude) + "\n" +
-                    "Longitude:" + String.valueOf(latitude));
 
+            /*Toast.makeText(getApplicationContext(),"Latitude: " + String.valueOf(longitude)+"\n" +
+                    "Longitude: " + String.valueOf(latitude), Toast.LENGTH_LONG).show();
+
+            MarkerOptions marker = new MarkerOptions()
+                    .position(new LatLng(latitude, longitude))
+                    .title("Here I am!");
+            gm.addMarker(marker);*/
         }
 
         @Override
@@ -238,25 +180,14 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        myLoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MarkerOptions marker = new MarkerOptions()
-                        .position(new LatLng(latitude, longitude))
-                        .title("Marker");
-                googleMap.addMarker(marker);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 5F);
 
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                builder.include(marker.getPosition());
-                LatLngBounds bounds = builder.build();
-
-                int padding = 100; // offset from edges of the map in pixels
-                CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 15F);
-
-                googleMap.animateCamera(cu);
-            }
-        });
+        googleMap.animateCamera(cu);
+        gm = googleMap;
+        gm.setMyLocationEnabled(true);
+        //gm.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
     }
+
 
 }
