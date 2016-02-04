@@ -1,55 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="sikander.example.com.tracker.MainActivity">
+
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:name="com.google.android.gms.maps.MapFragment"
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/myLoc"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="120dp" />
+        tools:layout="@layout/activity_maps" />
 
-    <ImageButton
+    <ZoomButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/myLoc"
-        android:src="@android:drawable/ic_menu_mylocation"
-        android:onClick="getMyLoc" />
+        android:id="@+id/zoomButton"
+        android:layout_gravity="right|bottom" />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text=""
-        android:id="@+id/mainLabel"
-        android:layout_toEndOf="@+id/myLoc"
-        android:layout_alignTop="@+id/myLoc"
-        android:layout_alignBottom="@+id/get" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/send"
-        android:layout_below="@+id/myLoc"
-        android:src="@android:drawable/ic_menu_send"
-        android:onClick="send" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/get"
-        android:src="@android:drawable/ic_dialog_email"
-        android:onClick="get"
-        android:layout_below="@+id/send"
-        android:layout_toStartOf="@+id/mainLabel" />
-
-</RelativeLayout>
+</FrameLayout>
