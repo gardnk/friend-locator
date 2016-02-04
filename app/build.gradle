@@ -3,7 +3,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "19.1.0"
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         applicationId "sikander.example.com.tracker"
@@ -25,5 +25,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.google.android.gms:play-services:8.3.0'
+    //compile 'com.google.appengine:appengine-endpoints:1.9.18'
+    //compile 'com.google.appengine:appengine-endpoints-deps:1.9.18'
+    compile project(path: ':backend', configuration: 'android-endpoints')
     compile 'com.android.support:design:22.2.0'
 }
