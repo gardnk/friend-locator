@@ -21,6 +21,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -53,12 +54,16 @@ import java.net.URL;
 import sikander.example.com.tracker.R;
 
 public class MainActivity extends FragmentActivity implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,OnMapReadyCallback {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        OnMapReadyCallback {
 
     TextView mainLabel;
     ImageButton myLoc,send,get;
 
     GoogleMap gm;
+    MotionEvent me;
+
+    //private HoverInterceptorView mInterceptor;
 
     public static final int MAP_TYPE_HYBRID = 4;
     public static final int MAP_TYPE_TERRAIN = 3;
@@ -79,7 +84,6 @@ public class MainActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //myLoc= (ImageButton) findViewById(R.id.myLoc);
 
 
@@ -103,6 +107,37 @@ public class MainActivity extends FragmentActivity implements
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
+        View conta = findViewById(R.id.textView);
+        conta.setOnHoverListener(new View.OnHoverListener()
+
+        {
+            @Override
+            public boolean onHover(View v, MotionEvent event) {
+                switch (event.getAction()) {
+
+                    case MotionEvent.ACTION_HOVER_ENTER:
+                        Toast.makeText(getApplicationContext(), "hover enter", Toast.LENGTH_LONG).show();
+                        System.out.println("hover enter");
+                        break;
+            /*case MotionEvent.ACTION_HOVER_MOVE:
+                Toast.makeText(getApplicationContext(),"hover", Toast.LENGTH_LONG).show();
+                break;*/
+                    case MotionEvent.ACTION_HOVER_EXIT:
+                        Toast.makeText(getApplicationContext(), "hover exit", Toast.LENGTH_LONG).show();
+                        System.out.println("hover exit");
+                        break;
+                    default:
+                        break;
+                }
+                Log.v("Something", "I'm Being Hovered" + event.getAction());
+
+                return false;
+
+            }
+        });
     }
 
     public void get(){
@@ -178,6 +213,9 @@ public class MainActivity extends FragmentActivity implements
 
     }
 
+
+
+
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 5F);
@@ -188,6 +226,7 @@ public class MainActivity extends FragmentActivity implements
         //gm.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
     }
+
 
 
 }

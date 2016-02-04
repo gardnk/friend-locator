@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="sikander.example.com.tracker.MainActivity">
+    tools:context="sikander.example.com.tracker.MainActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:id="@+id/container"
+    android:clickable="true">
 
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,11 +18,18 @@
         android:layout_height="match_parent"
         tools:layout="@layout/activity_maps" />
 
-    <ZoomButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/zoomButton"
-        android:layout_gravity="right|bottom" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/textView"
+        android:layout_gravity="left|top"
+        android:visibility="visible"
+        android:textIsSelectable="false"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
+        android:enabled="true"
+        android:editable="false"
+        android:clickable="false" />
 
 
 </FrameLayout>
