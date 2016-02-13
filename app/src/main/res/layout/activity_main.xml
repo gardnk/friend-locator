@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,28 +8,33 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:id="@+id/container"
-    android:clickable="true">
+    android:clickable="true"
+    android:background="#ffffff">
 
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        android:name="com.google.android.gms.maps.MapFragment"
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/activity_maps" />
-
-    <TextView
+    <Button
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/textView"
-        android:layout_gravity="left|top"
-        android:visibility="visible"
-        android:textIsSelectable="false"
-        android:focusableInTouchMode="false"
-        android:focusable="false"
-        android:enabled="true"
-        android:editable="false"
-        android:clickable="false" />
+        android:layout_height="100dp"
+        android:text="Sign In"
+        android:id="@+id/signin"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:background="#ffffff"
+        android:textSize="80sp"
+        android:onClick="goToMap"
+        android:nestedScrollingEnabled="false" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:text="Sign Up"
+        android:id="@+id/signup"
+        android:layout_below="@+id/signin"
+        android:layout_centerHorizontal="true"
+        android:background="#ffffff"
+        android:textSize="80sp" />
 
-</FrameLayout>
+</RelativeLayout>

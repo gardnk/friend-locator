@@ -1,3 +1,14 @@
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sikander.example.com.tracker.MainActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:id="@+id/container"
+    android:clickable="true">
+
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,3 +17,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="sikander.example.com.tracker.MapsActivity" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="88dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/info"
+        android:layout_gravity="left|bottom"
+        android:textColor="@android:color/holo_blue_dark"
+        android:background="@android:color/background_light"
+        android:visibility="invisible"
+        android:textIsSelectable="false"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
+        android:enabled="true"
+        android:editable="false"
+        android:clickable="false"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/imageButton"
+        android:src="@drawable/ic_setting_dark"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageButton2"
+        android:layout_toEndOf="@+id/imageButton2"
+        android:onClick="goToSettings" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/imageButton2"
+        android:src="@android:drawable/ic_menu_my_calendar"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:onClick="goToSettings" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/imageButton3"
+        android:src="@android:drawable/ic_dialog_map"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/imageButton2"
+        android:layout_toStartOf="@+id/imageButton2" />
+
+
+</RelativeLayout>
