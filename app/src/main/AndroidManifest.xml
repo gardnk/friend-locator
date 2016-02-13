@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -29,7 +30,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBm9mRv6vbyKM0YesOq7LeX2J02JXTOxpg" />
+            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".MapsActivity"
@@ -40,6 +41,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="sikander.example.com.tracker" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".GcmIntentService" />
         <activity android:name=".Settings"></activity>
     </application>
 

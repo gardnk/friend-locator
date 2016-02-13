@@ -34,4 +34,12 @@ dependencies {
     compile 'com.akexorcist:googledirectionlibrary:1.0.3'
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:support-v4:23.1.1'
+    compile project(path: ':backend', configuration: 'android-endpoints')
+    compile('com.googlecode.objectify:objectify:5.1.10') {
+        exclude group: 'com.google.guava'
+    }
+    compile 'com.google.appengine:appengine:1.9.32'
+    /*compile(project(path: ':backend')){
+        exclude module: 'com.google.guava'
+    }*/
 }

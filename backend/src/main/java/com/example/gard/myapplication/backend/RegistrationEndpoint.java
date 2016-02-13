@@ -10,6 +10,7 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.CollectionResponse;
+import com.google.appengine.api.datastore.Entity;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -47,13 +48,14 @@ public class RegistrationEndpoint {
      */
     @ApiMethod(name = "register")
     public void registerDevice(@Named("regId") String regId) {
-        if(findRecord(regId) != null) {
+        if(findUser(regId) != null) {
             log.info("Device " + regId + " already registered, skipping register");
             return;
         }
-        RegistrationRecord record = new RegistrationRecord();
-        record.setRegId(regId);
-        ofy().save().entity(record).now();
+        User user = new User();
+        user.setRegId(regId);
+        //Entity entity = new Entity(regId);
+        ofy().save().entity(user).now();
     }
 
     /**
@@ -63,12 +65,12 @@ public class RegistrationEndpoint {
      */
     @ApiMethod(name = "unregister")
     public void unregisterDevice(@Named("regId") String regId) {
-        RegistrationRecord record = findRecord(regId);
-        if(record == null) {
+        User user = findUser(regId);
+        if(user == null) {
             log.info("Device " + regId + " not registered, skipping unregister");
             return;
         }
-        ofy().delete().entity(record).now();
+        ofy().delete().entity(user).now();
     }
 
     /**
@@ -78,13 +80,12 @@ public class RegistrationEndpoint {
      * @return a list of Google Cloud Messaging registration Ids
      */
     @ApiMethod(name = "listDevices")
-    public CollectionResponse<RegistrationRecord> listDevices(@Named("count") int count) {
-        List<RegistrationRecord> records = ofy().load().type(RegistrationRecord.class).limit(count).list();
-        return CollectionResponse.<RegistrationRecord>builder().setItems(records).build();
+    public CollectionResponse<User> listDevices(@Named("count") int count) {
+        List<User> users = ofy().load().type(User.class).limit(count).list();
+        return CollectionResponse.<User>builder().setItems(users).build();
     }
 
-    private RegistrationRecord findRecord(String regId) {
-        return ofy().load().type(RegistrationRecord.class).filter("regId", regId).first().now();
+    private User findUser(String regId) {
+        return ofy().load().type(User.class).filter("regId", regId).first().now();
     }
-
 }
