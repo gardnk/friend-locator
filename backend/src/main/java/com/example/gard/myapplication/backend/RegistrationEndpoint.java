@@ -18,6 +18,10 @@ import javax.inject.Named;
 
 import static com.example.gard.myapplication.backend.OfyService.ofy;
 
+// DETTE ER CLOUD MESSAGING RETARD
+// DATASTORE ER ANNERLEDES
+// (til Gard)
+
 /**
  * A registration endpoint class we are exposing for a device's GCM registration id on the backend
  *
