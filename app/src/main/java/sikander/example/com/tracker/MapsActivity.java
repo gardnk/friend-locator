@@ -38,6 +38,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.text.DecimalFormat;
@@ -64,6 +65,8 @@ public class MapsActivity extends FragmentActivity implements
     public static final int MAP_TYPE_SATELLITE = 2;
     public static final int MAP_TYPE_NORMAL = 1;
     public static final int MAP_TYPE_NONE = 0;
+
+    private Polyline line = null;
 
     private Location mLastLocation;
     public LocationManager mLocationManager;
@@ -229,7 +232,7 @@ public class MapsActivity extends FragmentActivity implements
 
         GoogleDirection.withServerKey("AIzaSyD7Bt0ILWBqhi3JV8RloYgcgIhTqr2TRUU").from(StartP)
                 .to(marker.getPosition())
-                .avoid(AvoidType.FERRIES)
+                .avoid(AvoidType.FERRIES).avoid(AvoidType.HIGHWAYS)
                 .execute(new DirectionCallback() {
                     @Override
                     public void onDirectionSuccess(Direction direction) {
@@ -238,7 +241,7 @@ public class MapsActivity extends FragmentActivity implements
                             //gm.addPolyline(DirectionConverter.createPolyline(getApplicationContext(), directionPositionList, 5, Color.RED));
                             ArrayList<LatLng> directionPositionList = direction.getRouteList().get(0).getLegList().get(0).getDirectionPoint();
                             PolylineOptions polylineOptions = DirectionConverter.createPolyline(getApplicationContext(), directionPositionList, 5, Color.RED);
-                            gm.addPolyline(polylineOptions);
+                            line = gm.addPolyline(polylineOptions);
                         } else {
                             String status = direction.getStatus();
                             Toast.makeText(getApplicationContext(),
@@ -266,13 +269,15 @@ public class MapsActivity extends FragmentActivity implements
             Log.i("VISIBILITY: ", "" + info.getVisibility());
             info.setVisibility(View.INVISIBLE);
             Log.i("VISIBILITY: ", ""+info.getVisibility());
+            line.remove();
 
         }
         //info.setVisibility(View.GONE);
     }
 
+
     public void goToSettings(View view){
-        Intent intent = new Intent(this, Settings.class);
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 

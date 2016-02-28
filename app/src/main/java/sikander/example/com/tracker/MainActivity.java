@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.gard.myapplication.backend.registration.Registration;
-import com.example.gard.myapplication.backend.registration.model.User;
+//import com.example.gard.myapplication.backend.registration.model.User;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -36,7 +36,7 @@ public class MainActivity extends Activity{
         setContentView(R.layout.activity_main);
         signIn = (Button)findViewById(R.id.signin);
         signUp = (Button)findViewById(R.id.signup);
-        onSignIn();
+        //onSignIn();
     }
 
     public void goToMap(View view){
@@ -44,14 +44,14 @@ public class MainActivity extends Activity{
         startActivity(intent);
     }
 
-    public void onSignIn(){
+    /*public void onSignIn(){
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getUser();
             }
         });
-    }
+    }*/
 
     void getUser(){
         // dette er til cloud messaging
